@@ -76,6 +76,7 @@ Plugin 'scrooloose/nerdcommenter'
 " Plugin 'suan/vim-instant-markdown'
 " Plugin 'lilydjwg/fcitx.vim'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'will133/vim-dirdiff'
 " " 插件列表结束
 call vundle#end()
 filetype plugin indent on
@@ -83,11 +84,12 @@ filetype plugin indent on
 " 设置插件 indexer 调用 ctags 的参数
 " " 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v
 " " 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
-let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+let g:indexer_ctagsCommandLineOptions = "--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+let g:indexer_dontUpdateTagsIfFileExists = 1
 
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv ZZ:source $MYVIMRC<cr>
-
-
-autocmd BufNewFile *.py 0read shellescape("~/.vim/templates/python_header")
+autocmd BufNewFile *.py call SetPythonHeader()
+function SetPythonHeader()
+    0read ~/.vim/templates/python_header
+    normal! G
+endfunction
 
