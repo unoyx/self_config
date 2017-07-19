@@ -3,7 +3,7 @@ if [[ $- =~ "i" ]] && [ "$TERM_PROGRAM" != "iTerm.app" ]; then
         [[ -z "$TMUX" ]] && exec tmux new-session -A -s main
     fi
 
-    alias rm='rm -i'
+    # alias rm='rm -i'
     alias df='df -h'
 
     ## get rid of command not found ##
