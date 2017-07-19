@@ -1,4 +1,3 @@
-colorscheme darkblue
 set tabstop=4
 set expandtab
 set shiftwidth=4
@@ -24,7 +23,7 @@ set listchars=tab:\|\
 set wildmenu
 
 syntax enable
-syntax on
+" syntax on
 filetype indent on
 filetype plugin on
 filetype plugin indent on
@@ -48,7 +47,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 " " vundle 管理的插件列表必须位于 vundle#begin() 和 vundle#end() 之间
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 " Plugin 'tomasr/molokai'
 " Plugin 'vim-scripts/phd'
 Plugin 'Lokaltog/vim-powerline'
@@ -80,6 +79,9 @@ Plugin 'will133/vim-dirdiff'
 " " 插件列表结束
 call vundle#end()
 filetype plugin indent on
+
+set background=dark
+colorscheme solarized
 
 " 设置插件 indexer 调用 ctags 的参数
 " " 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v
