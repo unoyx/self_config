@@ -21,6 +21,7 @@ set hidden
 set list
 set listchars=tab:\|\ 
 set wildmenu
+set wildmode=longest,list
 
 syntax enable
 " syntax on
