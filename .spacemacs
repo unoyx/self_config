@@ -339,7 +339,9 @@ you should place your code here."
       (modify-syntax-entry ?_ "w" table)
       (with-syntax-table table
         ad-do-it)))
+  (add-to-list 'helm-boring-buffer-regexp-list "\*.*\*" )
 
+  (define-key helm-map (kbd "m") 'helm-toggle-visible-mark)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
