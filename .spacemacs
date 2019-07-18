@@ -31,10 +31,11 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     haskell
+     markdown
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-     haskell
      python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -48,6 +49,7 @@ values."
      ;; git
      ;; markdown
      ;; org
+     gtags
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -306,6 +308,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+  (setq-default dotspacemacs-configuration-layers
+                '((gtags :variables gtags-enable-by-default)))
   (setq-default c-default-style "ellemtel"
                 c-basic-offset 4)
   (with-eval-after-load 'company
@@ -339,9 +343,16 @@ you should place your code here."
       (modify-syntax-entry ?_ "w" table)
       (with-syntax-table table
         ad-do-it)))
-  (add-to-list 'helm-boring-buffer-regexp-list "\*.*\*" )
 
-  (define-key helm-map (kbd "m") 'helm-toggle-visible-mark)
+  (global-hl-line-mode 0)
+
+  (set-face-foreground 'linum "magenta")
+  (set-face-background 'linum "black")
+  (set-face-background 'evil-search-highlight-persist-highlight-face "black")
+
+  ;; (add-to-list 'helm-boring-buffer-regexp-list "\*.*\*" )
+
+  ;; (define-key helm-map (kbd "m") 'helm-toggle-visible-mark)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -356,11 +367,12 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help elixir-mix edts dired+ csharp-mode coffee-mode buffer-move auto-dictionary auto-complete-clang ace-jump-mode color-theme-solarized color-theme helm-company helm-c-yasnippet fuzzy flycheck-pos-tip pos-tip flycheck-haskell company-statistics company-cabal company-c-headers company-anaconda auto-yasnippet ac-ispell auto-complete disaster cmake-mode clang-format intero haskell-snippets flycheck hlint-refactor hindent helm-hoogle yasnippet company-ghci company-ghc ghc company haskell-mode cmm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic evil-lisp-state ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit smartparens undo-tree org-plus-contrib hydra evil-unimpaired f s dash async aggressive-indent adaptive-wrap ace-window avy)))
+    (helm-gtags ggtags mmm-mode markdown-toc markdown-mode gh-md evil-ediff dumb-jump column-enforce-mode shm company-quickhelp xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help elixir-mix edts dired+ csharp-mode coffee-mode buffer-move auto-dictionary auto-complete-clang ace-jump-mode color-theme-solarized color-theme helm-company helm-c-yasnippet fuzzy flycheck-pos-tip pos-tip flycheck-haskell company-statistics company-cabal company-c-headers company-anaconda auto-yasnippet ac-ispell auto-complete disaster cmake-mode clang-format intero haskell-snippets flycheck hlint-refactor hindent helm-hoogle yasnippet company-ghci company-ghc ghc company haskell-mode cmm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic evil-lisp-state ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit smartparens undo-tree org-plus-contrib hydra evil-unimpaired f s dash async aggressive-indent adaptive-wrap ace-window avy)))
  '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
