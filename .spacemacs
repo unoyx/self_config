@@ -344,11 +344,18 @@ you should place your code here."
       (with-syntax-table table
         ad-do-it)))
 
+  (set-face-foreground 'linum "violet")
+  (set-face-background 'linum "#073642")
+  (set-face-background 'evil-search-highlight-persist-highlight-face "#073642")
   (global-hl-line-mode 0)
 
-  (set-face-foreground 'linum "magenta")
-  (set-face-background 'linum "black")
-  (set-face-background 'evil-search-highlight-persist-highlight-face "black")
+  ;; (setq flycheck-clang-include-path
+  ;;       (list (expand-file-name "~/src/ToolChain/st_aitools/include")))
+  ;; (setq flycheck-gcc-include-path
+  ;;       (list (expand-file-name "~/src/ToolChain/st_aitools/include")))
+  (add-hook 'c++-mode-hook (lambda() (progn
+                                       (setq flycheck-gcc-language-standard "c++11")
+                                       (setq flycheck-clang-language-standard "c++11"))))
 
   ;; (add-to-list 'helm-boring-buffer-regexp-list "\*.*\*" )
 
