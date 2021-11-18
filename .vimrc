@@ -7,7 +7,7 @@ set cindent shiftwidth=4
 set smartindent
 set autoindent!
 set number!
-"set showmatch
+set showmatch
 set mouse=a
 set ruler
 set incsearch
@@ -59,7 +59,7 @@ Plugin 'derekwyatt/vim-fswitch'
 " Plugin 'kshenoy/vim-signature'
 " Plugin 'vim-scripts/BOOKMARKS—Mark-and-Highlight-Full-Lines'
 " Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/indexer.tar.gz'
+" Plugin 'vim-scripts/indexer.tar.gz'
 Plugin 'vim-scripts/DfrankUtil'
 Plugin 'vim-scripts/vimprj'
 " Plugin 'dyng/ctrlsf.vim'
@@ -88,8 +88,8 @@ colorscheme solarized
 " 设置插件 indexer 调用 ctags 的参数
 " " 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v
 " " 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
-let g:indexer_ctagsCommandLineOptions = "--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
-let g:indexer_dontUpdateTagsIfFileExists = 1
+" let g:indexer_ctagsCommandLineOptions = "--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+" let g:indexer_dontUpdateTagsIfFileExists = 1
 
 autocmd BufNewFile *.py call SetPythonHeader()
 function SetPythonHeader()
