@@ -1,18 +1,14 @@
-;; (add-to-list 'load-path "/home/shanh/.emacs.d/scripts/ample-theme")
-;; (add-to-list 'custom-theme-load-path "/home/shanh/.emacs.d/scripts/ample-theme")
-;; (add-to-list 'load-path "/home/shanh/.emacs.d/scripts/emacs-ccls")
-;; (add-to-list 'load-path "/home/heshan/.emacs.d/scripts/imenu-list")
-;; (add-to-list 'load-path "/home/shanh/.emacs.d/scripts/ag.el")
-;; (add-to-list 'load-path "/home/shanh/.emacs.d/scripts/lsp-mode")
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+
+(setq backup-directory-alist `(("." . "~/.saves")))
+
+(setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 (package-initialize)
 
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-			 ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (setq package-check-signature nil)
 
 (custom-set-variables
@@ -20,15 +16,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("e410458d3e769c33e0865971deb6e8422457fad02bf51f7862fa180ccc42c032" default))
  '(package-selected-packages
-   (quote
-    (eglot yasnippet-snippets jedi fic-mode iedit evil-leader ggtags projectile auto-complete evil))))
+   '(modus-themes racket-mode eglot yasnippet-snippets jedi fic-mode iedit evil-leader ggtags projectile auto-complete evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(load-theme 'modus-vivendi)
 
 (require 'ido)
 (ido-mode 1)
@@ -67,6 +66,7 @@
   "m" 'imenu-list-smart-toggle
   "n" 'iedit-mode
   "x" 'iedit-toggle-selection
+  "r" 'xref-find-references
   "H" 'unhighlight-regexp)
 
 (menu-bar-mode -1)
@@ -74,9 +74,9 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-display-line-numbers-mode)
 (setq-default c-default-style "ellemtel"
-	      c-basic-offset 4
-	      tab-width 4
-	      indent-tabs-mode nil)
+              c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode nil)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
@@ -89,17 +89,12 @@
 (add-hook 'python-mode-hook (lambda ()
                          (modify-syntax-entry ?_ "w" python-mode-syntax-table)))
 
+(add-hook 'racket-mode-hook (lambda ()
+                              (dolist (char (list ?_ ?-))
+                                (modify-syntax-entry char "w" racket-mode-syntax-table))))
+
 (setq scroll-margin 0)
 (setq scroll-conservatively 0)
-
-;; (require 'lsp-mode)
-;; (add-hook 'c++-mode-hook 'ggtags-mode)
-;; (add-hook 'python-mode-hook 'lsp)
-;; (require 'ccls)
-;; (setq ccls-executable "/home/shanh/src/ccls/Release/ccls")
-
-;; (require 'elpy)
-;; (elpy-enable)
 
 (require 'ag)
 (setq ag-reuse-buffers 't)
@@ -118,18 +113,42 @@
 (setq jedi:environment-virtualenv (append '("virtualenv" "--system-site-packages" "--quiet")
                                           '("--python" "/usr/bin/python3")))
 
-(require 'yasnippet)
-(yas-global-mode t)
-
 (require 'eglot)
-(add-to-list 'eglot-server-programs '((c++-mode c-mode) "/data/heshan/clangd/llvm-project-11.0.0/build/bin/clangd"))
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
+(add-to-list 'eglot-server-programs '((c++-mode c-mode) "/usr/bin/clangd"))
+(add-to-list 'eglot-server-programs '((racket-mode) "/usr/bin/racket" "-l" "racket-langserver"))
+(add-to-list 'eglot-server-programs '((java-mode)
+                                      "/usr/bin/java"
+                                      "-Declipse.application=org.eclipse.jdt.ls.core.id1" 
+                                      "-Dosgi.bundles.defaultStartLevel=4" 
+                                      "-Declipse.product=org.eclipse.jdt.ls.core.product" 
+                                      "-Dlog.level=ALL" 
+                                      "-Xmx1G" 
+                                      "--add-modules=ALL-SYSTEM" 
+                                      "--add-opens" "java.base/java.util=ALL-UNNAMED" 
+                                      "--add-opens" "java.base/java.lang=ALL-UNNAMED" 
+                                      "-jar" "/home/unoyx/src/jdt/plugins/org.eclipse.equinox.launcher_1.6.700.v20231214-2017.jar" 
+                                      "-configuration" "/home/unoyx/src/jdt/config_linux" 
+                                      "-data" "/home/unoyx/src/jdt/running_data"))
+;; (add-to-list 'eglot-server-programs '((python-mode)  "pyright"))
+
+(add-hook 'c-mode-hook #'eglot-ensure)
+(add-hook 'c++-mode-hook #'eglot-ensure)
+(add-hook 'racket-mode-hook #'eglot-ensure)
+;; (add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'java-mode-hook #'eglot-ensure)
 
 (define-key ido-common-completion-map "\C-n" 'ido-next-match)
 (define-key ido-common-completion-map "\C-p" 'ido-prev-match)
 
 (setq load-path
-      (cons (expand-file-name "/data/heshan/llvm-project-s2/llvm/utils/emacs/") load-path))
+      (cons (expand-file-name "~/src/llvm-project/llvm/utils/emacs/") load-path))
 (require 'llvm-mode)
 (require 'tablegen-mode)
+
+(add-hook 'Buffer-menu-mode-hook (lambda ()
+                                   (define-key Buffer-menu-mode-map (kbd "o") 'Buffer-menu-this-window)))
+
+(add-hook 'Buffer-menu-mode-hook (lambda ()
+                                   (evil-local-set-key 'motion (kbd "RET") 'Buffer-menu-this-window)))
+
+

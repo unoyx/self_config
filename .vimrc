@@ -22,6 +22,8 @@ set list
 set listchars=tab:\|\ 
 set wildmenu
 set wildmode=longest,list
+set t_Co=256
+let g:solarized_termcolors=256
 
 syntax enable
 " syntax on
