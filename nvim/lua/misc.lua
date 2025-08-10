@@ -54,7 +54,7 @@ lspconfig.pylsp.setup{
 
 lspconfig.lua_ls.setup{
     settings = {
-        Lua = {
+        lua = {
             diagnostics = {
                 globals = { 'vim' }
             }
@@ -64,17 +64,51 @@ lspconfig.lua_ls.setup{
 }
 
 lspconfig.clangd.setup{}
-require('telescope').setup {
+
+require('telescope').setup{
+    defaults = {
+        -- Default configuration for telescope goes here:
+        -- config_key = value,
+        vimgrep_arguments = {
+            "ag",
+            "--nocolor",
+            "--noheading",
+            "--numbers",
+            "--column",
+            "--smart-case",
+            "--silent",
+            "--vimgrep",
+        }
+    },
+    pickers = {
+        -- Default configuration for builtin pickers goes here:
+        -- picker_name = {
+        --   picker_config_key = value,
+        --   ...
+        -- }
+        -- Now the picker_config_key will be applied every time you call this
+        -- builtin picker
+        git_files = {
+            git_command = {"git", "ls-files", "--exclude-standard", "--cached"}
+        }
+    },
+    extensions = {
+        -- Your extension configuration goes here:
+        -- extension_name = {
+        --   extension_config_key = value,
+        -- }
+        -- please take a look at the readme of the extension you want to configure
+    }
 }
-
-
 
 -- vim.keymap.set('n', '<leader>td', project_actions.delete_project, { desc = 'Telescope-project delete project' })
 -- vim.keymap.set('n', '<leader>tf', project_actions.find_project_files, { desc = 'Telescope-project find files' })
 --
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>tf', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>tg', builtin.git_files, { desc = 'Telescope search git files' })
+-- vim.keymap.set('n', '<leader>tf', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>ta', builtin.live_grep, { desc = 'Search for a string in your current working directory and get results live as you type' })
+vim.keymap.set('n', '<leader>tf', builtin.git_files, { desc = 'Telescope search git files' })
 vim.keymap.set('n', '<leader>tb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>th', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>tr', builtin.lsp_references, { desc = 'Telescope find reference'})
+vim.keymap.set('n', '<leader>ts', builtin.lsp_workspace_symbols, { desc = 'Lists LSP document symbols in the current workspace'})
